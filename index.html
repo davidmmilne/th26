@@ -21,7 +21,6 @@
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-dark);min-height:100vh;font-size:15px;line-height:1.5;}
   
-  /* ── Login Screen ── */
   .login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,var(--jade) 0%,var(--jade-light) 100%);padding:20px;}
   .login-box{background:var(--bg);border-radius:16px;padding:40px 30px;max-width:320px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
   .login-title{font-family:'Playfair Display',serif;font-size:32px;color:var(--jade);margin-bottom:8px;text-align:center;}
@@ -39,10 +38,7 @@
   .app-sub{font-size:12px;color:rgba(240,201,106,.6);letter-spacing:.1em;text-transform:uppercase;margin-top:2px;}
   .logout-btn{background:none;border:none;color:var(--gold-light);font-size:12px;cursor:pointer;padding:4px 8px;}
   .logout-btn:hover{opacity:.8;}
-  .sync-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-left:8px;}
-  .sync-dot.ok{background:#4caf50;}
-  .sync-dot.busy{background:#ff9800;}
-  .sync-dot.err{background:#f44336;}
+  .sync-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-left:8px;background:#4caf50;}
   
   .bnav{background:rgba(0,0,0,.15);display:flex;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.1);}
   .bn{flex:1 1 20%;min-width:60px;max-width:25%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:none;border:none;cursor:pointer;padding:7px 3px;color:rgba(240,201,106,.45);transition:background .15s,color .15s;}
@@ -110,7 +106,6 @@
 </head>
 <body>
 
-<!-- Login Screen -->
 <div class="login-screen" id="loginScreen">
   <div class="login-box">
     <div class="login-title">TH26</div>
@@ -124,12 +119,11 @@
   </div>
 </div>
 
-<!-- Main App -->
 <div id="appContainer" style="display:none;">
   <div class="app-header">
     <div class="header-inner">
       <div>
-        <div class="app-title">TH26 <span class="sync-dot ok" id="syncDot"></span></div>
+        <div class="app-title">TH26 <span class="sync-dot" id="syncDot"></span></div>
         <div class="app-sub">Thailand</div>
       </div>
       <button class="logout-btn" onclick="handleLogout()">Logout</button>
@@ -149,74 +143,41 @@
   </nav>
 
   <div class="main">
-    <!-- UK Shopping List -->
     <div class="section active" id="buyUK">
-      <div class="sec-hdr">
-        <div class="sec-title">UK Shopping</div>
-      </div>
+      <div class="sec-hdr"><div class="sec-title">UK Shopping</div></div>
       <div class="deco"></div>
       <div id="buyUKList"></div>
     </div>
-
-    <!-- Packing List -->
     <div class="section" id="pack">
-      <div class="sec-hdr">
-        <div class="sec-title">Packing</div>
-      </div>
+      <div class="sec-hdr"><div class="sec-title">Packing</div></div>
       <div class="deco"></div>
       <div id="packList"></div>
     </div>
-
-    <!-- Thailand Shopping List -->
     <div class="section" id="buyTH">
-      <div class="sec-hdr">
-        <div class="sec-title">Thailand Shopping</div>
-      </div>
+      <div class="sec-hdr"><div class="sec-title">Thailand Shopping</div></div>
       <div class="deco"></div>
       <div id="buyTHList"></div>
     </div>
-
-    <!-- Contacts -->
     <div class="section" id="contacts">
-      <div class="sec-hdr">
-        <div class="sec-title">Contacts</div>
-      </div>
+      <div class="sec-hdr"><div class="sec-title">Contacts</div></div>
       <div class="deco"></div>
       <div id="contactsList"></div>
-      <div style="margin-top:16px;">
-        <button class="add-btn" onclick="openAddContactModal()" style="width:100%;">+ Add Contact</button>
-      </div>
+      <div style="margin-top:16px;"><button class="add-btn" onclick="openAddContactModal()" style="width:100%;">+ Add Contact</button></div>
     </div>
-
-    <!-- Key Info -->
     <div class="section" id="keyInfo">
-      <div class="sec-hdr">
-        <div class="sec-title">Key Info</div>
-      </div>
+      <div class="sec-hdr"><div class="sec-title">Key Info</div></div>
       <div class="deco"></div>
       <div id="keyInfoList"></div>
-      <div style="margin-top:16px;">
-        <button class="add-btn" onclick="openAddKeyInfoModal()" style="width:100%;">+ Add Info</button>
-      </div>
+      <div style="margin-top:16px;"><button class="add-btn" onclick="openAddKeyInfoModal()" style="width:100%;">+ Add Info</button></div>
     </div>
-
-    <!-- Travel Advice -->
     <div class="section" id="advice">
-      <div class="sec-hdr">
-        <div class="sec-title">Travel Advice</div>
-      </div>
+      <div class="sec-hdr"><div class="sec-title">Travel Advice</div></div>
       <div class="deco"></div>
       <div id="adviceList"></div>
-      <div style="margin-top:16px;">
-        <button class="add-btn" onclick="openAddAdviceModal()" style="width:100%;">+ Add Advice</button>
-      </div>
+      <div style="margin-top:16px;"><button class="add-btn" onclick="openAddAdviceModal()" style="width:100%;">+ Add Advice</button></div>
     </div>
-
-    <!-- Notes -->
     <div class="section" id="notes">
-      <div class="sec-hdr">
-        <div class="sec-title">Notes</div>
-      </div>
+      <div class="sec-hdr"><div class="sec-title">Notes</div></div>
       <div class="deco"></div>
       <textarea id="notesArea" class="notes-ta" placeholder="Add your notes here..."></textarea>
       <div class="notes-bot">
@@ -224,89 +185,38 @@
         <button class="save-btn" onclick="saveNotes()">Save</button>
       </div>
     </div>
-
-    <!-- Phrasebook -->
     <div class="section" id="phrasebook">
-      <div class="sec-hdr">
-        <div class="sec-title">Thai Phrasebook</div>
-      </div>
+      <div class="sec-hdr"><div class="sec-title">Thai Phrasebook</div></div>
       <div class="deco"></div>
       <div id="phrasebookContent"></div>
     </div>
-
-    <!-- Clocks -->
     <div class="section" id="clocks">
-      <div class="sec-hdr">
-        <div class="sec-title">Time Zones</div>
-      </div>
+      <div class="sec-hdr"><div class="sec-title">Time Zones</div></div>
       <div class="deco"></div>
       <div class="card">
         <div style="display:flex;justify-content:space-between;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);">
-          <div>
-            <div style="font-weight:500;color:var(--jade);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;">UK</div>
-            <div style="font-size:18px;font-weight:500;color:var(--text-dark);font-family:monospace;margin-top:6px;" id="clockUK">--:--</div>
-            <div style="font-size:12px;color:var(--text-muted);margin-top:4px;" id="dateUK">--</div>
-          </div>
-          <div style="text-align:right;">
-            <div style="font-weight:500;color:var(--jade);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;">CHIANG MAI</div>
-            <div style="font-size:18px;font-weight:500;color:var(--text-dark);font-family:monospace;margin-top:6px;" id="clockCNX">--:--</div>
-            <div style="font-size:12px;color:var(--text-muted);margin-top:4px;" id="dateCNX">--</div>
-          </div>
+          <div><div style="font-weight:500;color:var(--jade);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;">UK</div><div style="font-size:18px;font-weight:500;color:var(--text-dark);font-family:monospace;margin-top:6px;" id="clockUK">--:--</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px;" id="dateUK">--</div></div>
+          <div style="text-align:right;"><div style="font-weight:500;color:var(--jade);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;">CHIANG MAI</div><div style="font-size:18px;font-weight:500;color:var(--text-dark);font-family:monospace;margin-top:6px;" id="clockCNX">--:--</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px;" id="dateCNX">--</div></div>
         </div>
-        <div style="display:flex;justify-content:space-between;">
-          <div>
-            <div style="font-weight:500;color:var(--jade);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;">BEIJING</div>
-            <div style="font-size:18px;font-weight:500;color:var(--text-dark);font-family:monospace;margin-top:6px;" id="clockBEI">--:--</div>
-            <div style="font-size:12px;color:var(--text-muted);margin-top:4px;" id="dateBEI">--</div>
-          </div>
-        </div>
+        <div style="display:flex;justify-content:space-between;"><div><div style="font-weight:500;color:var(--jade);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;">BEIJING</div><div style="font-size:18px;font-weight:500;color:var(--text-dark);font-family:monospace;margin-top:6px;" id="clockBEI">--:--</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px;" id="dateBEI">--</div></div></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Toast -->
 <div class="tst" id="toast"></div>
 
-<!-- Modals -->
-<div class="mb" id="addContactModal">
-  <div class="modalbody">
-    <button class="modal-close" onclick="document.getElementById('addContactModal').classList.remove('open');">✕</button>
-    <div class="moda-title">Add Contact</div>
-    <input type="text" id="contactName" placeholder="Name">
-    <input type="text" id="contactRole" placeholder="Role (optional)">
-    <input type="text" id="contactPhone" placeholder="Phone (optional)">
-    <input type="text" id="contactEmail" placeholder="Email (optional)">
-    <button onclick="saveContact()">Add Contact</button>
-  </div>
-</div>
+<div class="mb" id="addContactModal"><div class="modalbody"><button class="modal-close" onclick="document.getElementById('addContactModal').classList.remove('open');">✕</button><div class="moda-title">Add Contact</div><input type="text" id="contactName" placeholder="Name"><input type="text" id="contactRole" placeholder="Role (optional)"><input type="text" id="contactPhone" placeholder="Phone (optional)"><input type="text" id="contactEmail" placeholder="Email (optional)"><button onclick="saveContact()">Add Contact</button></div></div>
 
-<div class="mb" id="addKeyInfoModal">
-  <div class="modalbody">
-    <button class="modal-close" onclick="document.getElementById('addKeyInfoModal').classList.remove('open');">✕</button>
-    <div class="moda-title">Add Key Info</div>
-    <input type="text" id="keyInfoTitle" placeholder="Title (e.g., Embassy)">
-    <input type="text" id="keyInfoValue" placeholder="Details">
-    <button onclick="saveKeyInfo()">Add Info</button>
-  </div>
-</div>
+<div class="mb" id="addKeyInfoModal"><div class="modalbody"><button class="modal-close" onclick="document.getElementById('addKeyInfoModal').classList.remove('open');">✕</button><div class="moda-title">Add Key Info</div><input type="text" id="keyInfoTitle" placeholder="Title (e.g., Embassy)"><input type="text" id="keyInfoValue" placeholder="Details"><button onclick="saveKeyInfo()">Add Info</button></div></div>
 
-<div class="mb" id="addAdviceModal">
-  <div class="modalbody">
-    <button class="modal-close" onclick="document.getElementById('addAdviceModal').classList.remove('open');">✕</button>
-    <div class="moda-title">Add Travel Advice</div>
-    <input type="text" id="adviceCategory" placeholder="Category (e.g., Food)">
-    <input type="text" id="adviceText" placeholder="Advice">
-    <button onclick="saveAdvice()">Add Advice</button>
-  </div>
-</div>
+<div class="mb" id="addAdviceModal"><div class="modalbody"><button class="modal-close" onclick="document.getElementById('addAdviceModal').classList.remove('open');">✕</button><div class="moda-title">Add Travel Advice</div><input type="text" id="adviceCategory" placeholder="Category (e.g., Food)"><input type="text" id="adviceText" placeholder="Advice"><button onclick="saveAdvice()">Add Advice</button></div></div>
 
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+import { getDatabase, ref, get, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
 
-<script>
-// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyB9VG6MxZJyq1F7SNkIqF7JOjERBn8Xuoo",
   authDomain: "th26-fcf06.firebaseapp.com",
@@ -317,13 +227,14 @@ const firebaseConfig = {
   appId: "1:1004464120258:web:7a689c9b8d54b08982765b"
 };
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.database();
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
 
-// Auth state
-auth.onAuthStateChanged((user) => {
+window.auth = auth;
+window.db = db;
+
+onAuthStateChanged(auth, (user) => {
   if (user) {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('appContainer').style.display = 'block';
@@ -334,7 +245,7 @@ auth.onAuthStateChanged((user) => {
   }
 });
 
-function handleLogin() {
+window.handleLogin = function() {
   const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value;
   const errEl = document.getElementById('loginError');
@@ -345,52 +256,42 @@ function handleLogin() {
     return;
   }
   
-  auth.signInWithEmailAndPassword(email, password)
+  signInWithEmailAndPassword(auth, email, password)
     .catch((error) => {
       errEl.textContent = error.message;
       errEl.style.display = 'block';
     });
-}
-
-function handleLogout() {
-  auth.signOut().catch(() => {});
-}
-
-// Data store
-const D = {
-  buyUK: [],
-  pack: [],
-  buyTH: [],
-  contacts: [],
-  keyInfo: [],
-  advice: [],
-  notes: ''
 };
 
+window.handleLogout = function() {
+  signOut(auth).catch(() => {});
+};
+
+const D = { buyUK: [], pack: [], buyTH: [], contacts: [], keyInfo: [], advice: [], notes: '' };
 const lastKnown = {};
 let syncListeners = {};
 
-async function dbGet(key) {
+window.dbGet = async function(key) {
   try {
-    const snapshot = await db.ref(`users/${auth.currentUser.uid}/${key}`).once('value');
+    const snapshot = await get(ref(db, `users/${auth.currentUser.uid}/${key}`));
     return snapshot.exists() ? snapshot.val() : null;
   } catch (e) {
     console.error('dbGet error:', e);
     return null;
   }
-}
+};
 
-async function dbSet(key, value) {
+window.dbSet = async function(key, value) {
   try {
-    await db.ref(`users/${auth.currentUser.uid}/${key}`).set(value);
+    await set(ref(db, `users/${auth.currentUser.uid}/${key}`), value);
   } catch (e) {
     console.error('dbSet error:', e);
   }
-}
+};
 
 function setupSync(key) {
-  const dbRef = db.ref(`users/${auth.currentUser.uid}/${key}`);
-  const listener = dbRef.on('value', (snapshot) => {
+  const dbRef = ref(db, `users/${auth.currentUser.uid}/${key}`);
+  const listener = onValue(dbRef, (snapshot) => {
     if (snapshot.exists()) {
       D[key] = snapshot.val();
       lastKnown[key] = JSON.stringify(D[key]);
@@ -400,28 +301,22 @@ function setupSync(key) {
   syncListeners[key] = listener;
 }
 
-function setSyncDot(state) {
-  const dot = document.getElementById('syncDot');
-  dot.className = 'sync-dot ' + state;
-}
+window.uid = () => 'id_' + Math.random().toString(36).substr(2, 9);
+window.esc = (s) => { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; };
 
-// UI Functions
-function uid() { return 'id_' + Math.random().toString(36).substr(2, 9); }
-function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-
-function toast(msg) {
+window.toast = (msg) => {
   const el = document.getElementById('toast');
   el.textContent = msg;
   el.classList.add('show');
   setTimeout(() => el.classList.remove('show'), 2500);
-}
+};
 
-function switchTab(tab) {
+window.switchTab = (tab) => {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.bn').forEach(b => b.classList.remove('active'));
   document.getElementById(tab).classList.add('active');
   event.target.closest('.bn').classList.add('active');
-}
+};
 
 function renderUI() {
   renderList('buyUK', 'buyUKList');
@@ -435,134 +330,93 @@ function renderUI() {
 function renderList(key, elId) {
   const el = document.getElementById(elId);
   if (!el) return;
-  
   const items = D[key] || [];
   const grouped = {};
   items.forEach(item => {
     if (!grouped[item.cat]) grouped[item.cat] = [];
     grouped[item.cat].push(item);
   });
-
   el.innerHTML = Object.entries(grouped).map(([cat, catItems]) =>
-    `<div class="card">
-      <div class="list-cat">${esc(cat)}</div>
-      ${catItems.map(item =>
-        `<div class="li${item.done ? ' done' : ''}">
-          <input type="checkbox" class="chk" ${item.done ? 'checked' : ''} 
-            onchange="toggleItem('${key}','${item.id}')">
-          <span class="li-txt">${esc(item.text)}</span>
-          <button class="li-del" onclick="delItem('${key}','${item.id}')">✕</button>
-        </div>`
-      ).join('')}
-      <div class="add-row">
-        <input type="text" class="add-in" id="inp_${key}_${cat}" placeholder="Add item...">
-        <button class="add-btn" onclick="addItem('${key}','${cat}')">Add</button>
-      </div>
-    </div>`
+    `<div class="card"><div class="list-cat">${window.esc(cat)}</div>${catItems.map(item =>
+      `<div class="li${item.done ? ' done' : ''}"><input type="checkbox" class="chk" ${item.done ? 'checked' : ''} onchange="toggleItem('${key}','${item.id}')"><span class="li-txt">${window.esc(item.text)}</span><button class="li-del" onclick="delItem('${key}','${item.id}')">✕</button></div>`
+    ).join('')}<div class="add-row"><input type="text" class="add-in" id="inp_${key}_${cat}" placeholder="Add item..."><button class="add-btn" onclick="addItem('${key}','${cat}')">Add</button></div></div>`
   ).join('');
 }
 
-function addItem(key, cat) {
+window.addItem = (key, cat) => {
   const inpId = `inp_${key}_${cat}`;
   const text = document.getElementById(inpId).value.trim();
   if (!text) return;
-  
-  D[key].push({ id: uid(), cat, text, done: false });
-  dbSet(key, D[key]);
+  D[key].push({ id: window.uid(), cat, text, done: false });
+  window.dbSet(key, D[key]);
   document.getElementById(inpId).value = '';
-}
+};
 
-function toggleItem(key, id) {
+window.toggleItem = (key, id) => {
   const item = D[key].find(i => i.id === id);
   if (item) {
     item.done = !item.done;
-    dbSet(key, D[key]);
+    window.dbSet(key, D[key]);
   }
-}
+};
 
-function delItem(key, id) {
+window.delItem = (key, id) => {
   D[key] = D[key].filter(i => i.id !== id);
-  dbSet(key, D[key]);
-}
+  window.dbSet(key, D[key]);
+};
 
 function renderContacts() {
   const el = document.getElementById('contactsList');
   el.innerHTML = (D.contacts || []).map(c =>
-    `<div class="cc">
-      <div>
-        <div class="cc-name">${esc(c.name)}</div>
-        ${c.role ? `<div class="cc-det">${esc(c.role)}</div>` : ''}
-        ${c.phone ? `<div class="cc-note">☎️ ${esc(c.phone)}</div>` : ''}
-        ${c.email ? `<div class="cc-note">✉️ ${esc(c.email)}</div>` : ''}
-      </div>
-      <button class="cc-del" onclick="delContact('${c.id}')">✕</button>
-    </div>`
+    `<div class="cc"><div><div class="cc-name">${window.esc(c.name)}</div>${c.role ? `<div class="cc-det">${window.esc(c.role)}</div>` : ''}${c.phone ? `<div class="cc-note">☎️ ${window.esc(c.phone)}</div>` : ''}${c.email ? `<div class="cc-note">✉️ ${window.esc(c.email)}</div>` : ''}</div><button class="cc-del" onclick="delContact('${c.id}')">✕</button></div>`
   ).join('');
 }
 
-function openAddContactModal() {
-  document.getElementById('addContactModal').classList.add('open');
-}
+window.openAddContactModal = () => document.getElementById('addContactModal').classList.add('open');
 
-function saveContact() {
+window.saveContact = () => {
   const name = document.getElementById('contactName').value.trim();
-  if (!name) { toast('Name required'); return; }
-  
-  D.contacts.push({
-    id: uid(),
-    name,
-    role: document.getElementById('contactRole').value.trim(),
-    phone: document.getElementById('contactPhone').value.trim(),
-    email: document.getElementById('contactEmail').value.trim()
-  });
-  dbSet('contacts', D.contacts);
+  if (!name) { window.toast('Name required'); return; }
+  D.contacts.push({ id: window.uid(), name, role: document.getElementById('contactRole').value.trim(), phone: document.getElementById('contactPhone').value.trim(), email: document.getElementById('contactEmail').value.trim() });
+  window.dbSet('contacts', D.contacts);
   document.getElementById('addContactModal').classList.remove('open');
   document.getElementById('contactName').value = '';
   document.getElementById('contactRole').value = '';
   document.getElementById('contactPhone').value = '';
   document.getElementById('contactEmail').value = '';
-  toast('Contact added');
-}
+  window.toast('Contact added');
+};
 
-function delContact(id) {
+window.delContact = (id) => {
   D.contacts = D.contacts.filter(c => c.id !== id);
-  dbSet('contacts', D.contacts);
-}
+  window.dbSet('contacts', D.contacts);
+};
 
 function renderKeyInfo() {
   const el = document.getElementById('keyInfoList');
   el.innerHTML = (D.keyInfo || []).map(ki =>
-    `<div class="ib">
-      <div class="ib-title">${esc(ki.title)}</div>
-      <div class="ir">
-        <div class="ir-val">${esc(ki.value)}</div>
-        <button class="cc-del" onclick="delKeyInfo('${ki.id}')" style="margin-left:auto;">✕</button>
-      </div>
-    </div>`
+    `<div class="ib"><div class="ib-title">${window.esc(ki.title)}</div><div class="ir"><div class="ir-val">${window.esc(ki.value)}</div><button class="cc-del" onclick="delKeyInfo('${ki.id}')" style="margin-left:auto;">✕</button></div></div>`
   ).join('');
 }
 
-function openAddKeyInfoModal() {
-  document.getElementById('addKeyInfoModal').classList.add('open');
-}
+window.openAddKeyInfoModal = () => document.getElementById('addKeyInfoModal').classList.add('open');
 
-function saveKeyInfo() {
+window.saveKeyInfo = () => {
   const title = document.getElementById('keyInfoTitle').value.trim();
   const value = document.getElementById('keyInfoValue').value.trim();
-  if (!title || !value) { toast('Title and details required'); return; }
-  
-  D.keyInfo.push({ id: uid(), title, value });
-  dbSet('keyInfo', D.keyInfo);
+  if (!title || !value) { window.toast('Title and details required'); return; }
+  D.keyInfo.push({ id: window.uid(), title, value });
+  window.dbSet('keyInfo', D.keyInfo);
   document.getElementById('addKeyInfoModal').classList.remove('open');
   document.getElementById('keyInfoTitle').value = '';
   document.getElementById('keyInfoValue').value = '';
-  toast('Info added');
-}
+  window.toast('Info added');
+};
 
-function delKeyInfo(id) {
+window.delKeyInfo = (id) => {
   D.keyInfo = D.keyInfo.filter(ki => ki.id !== id);
-  dbSet('keyInfo', D.keyInfo);
-}
+  window.dbSet('keyInfo', D.keyInfo);
+};
 
 function renderAdvice() {
   const el = document.getElementById('adviceList');
@@ -571,54 +425,38 @@ function renderAdvice() {
     if (!combined[a.cat]) combined[a.cat] = [];
     combined[a.cat].push(a);
   });
-
   el.innerHTML = Object.entries(combined).map(([cat, items]) =>
-    `<div class="ag">
-      <div class="ag-title">${esc(cat)}</div>
-      ${items.map(i =>
-        `<div class="ai">
-          <span class="ai-bul">◆</span>
-          <span style="flex:1;">${esc(i.text)}</span>
-          <button onclick="delAdvice('${i.id}')" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:11.5px;margin-left:5px;flex-shrink:0;">✕</button>
-        </div>`
-      ).join('')}
-    </div>`
+    `<div class="ag"><div class="ag-title">${window.esc(cat)}</div>${items.map(i =>
+      `<div class="ai"><span class="ai-bul">◆</span><span style="flex:1;">${window.esc(i.text)}</span><button onclick="delAdvice('${i.id}')" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:11.5px;margin-left:5px;flex-shrink:0;">✕</button></div>`
+    ).join('')}</div>`
   ).join('');
 }
 
-function openAddAdviceModal() {
-  document.getElementById('addAdviceModal').classList.add('open');
-}
+window.openAddAdviceModal = () => document.getElementById('addAdviceModal').classList.add('open');
 
-function saveAdvice() {
+window.saveAdvice = () => {
   const cat = document.getElementById('adviceCategory').value.trim();
   const text = document.getElementById('adviceText').value.trim();
-  if (!cat || !text) { toast('Category and advice required'); return; }
-  
-  D.advice.push({ id: uid(), cat, text });
-  dbSet('advice', D.advice);
+  if (!cat || !text) { window.toast('Category and advice required'); return; }
+  D.advice.push({ id: window.uid(), cat, text });
+  window.dbSet('advice', D.advice);
   document.getElementById('addAdviceModal').classList.remove('open');
   document.getElementById('adviceCategory').value = '';
   document.getElementById('adviceText').value = '';
-  toast('Advice added');
-}
+  window.toast('Advice added');
+};
 
-function delAdvice(id) {
+window.delAdvice = (id) => {
   D.advice = D.advice.filter(a => a.id !== id);
-  dbSet('advice', D.advice);
-}
+  window.dbSet('advice', D.advice);
+};
 
-function loadNotes() {
-  document.getElementById('notesArea').value = D.notes || '';
-  document.getElementById('saveHint').textContent = 'Last saved';
-}
-
-function saveNotes() {
+window.saveNotes = () => {
   D.notes = document.getElementById('notesArea').value;
-  dbSet('notes', D.notes);
+  window.dbSet('notes', D.notes);
   document.getElementById('saveHint').textContent = 'Saved ✓';
-  toast('Notes saved');
-}
+  window.toast('Notes saved');
+};
 
 document.addEventListener('input', function(e) {
   if (e.target.id === 'notesArea') {
@@ -626,56 +464,37 @@ document.addEventListener('input', function(e) {
   }
 });
 
-// Phrasebook
-const PHRASES = [
-  { cat: 'Greetings', items: [
-    { en: 'Hello / Hi', rom: 'Sawasdee (krap/ka)' },
-    { en: 'Good morning', rom: 'Sawasdee ton chao' },
-    { en: 'Good evening', rom: 'Sawasdee ton yen' },
-    { en: 'Goodbye', rom: 'La gon' },
-    { en: 'How are you?', rom: 'Pen yang-ngai bang?' }
-  ]},
-  { cat: 'Politeness', items: [
-    { en: 'Thank you', rom: 'Khob khun (krap/ka)' },
-    { en: 'Please', rom: 'Karuna / Kor' },
-    { en: 'Sorry', rom: 'Khor toht' },
-    { en: 'Yes', rom: 'Chai' },
-    { en: 'No', rom: 'Mai' }
-  ]},
-  { cat: 'Useful', items: [
-    { en: 'How much?', rom: 'Tao rai?' },
-    { en: 'Where is...?', rom: '...yoo tee nai?' },
-    { en: 'Water', rom: 'Nam' },
-    { en: 'Toilet', rom: 'Hong nam' },
-    { en: 'Help', rom: 'Chuay duay!' }
-  ]}
-];
-
-function speakThai(text) {
-  if (!window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'th-TH';
-  u.rate = 0.85;
-  window.speechSynthesis.speak(u);
-}
-
 function renderPhrasebook() {
+  const PHRASES = [
+    { cat: 'Greetings', items: [
+      { en: 'Hello / Hi', rom: 'Sawasdee (krap/ka)' },
+      { en: 'Good morning', rom: 'Sawasdee ton chao' },
+      { en: 'Goodbye', rom: 'La gon' },
+      { en: 'How are you?', rom: 'Pen yang-ngai bang?' }
+    ]},
+    { cat: 'Politeness', items: [
+      { en: 'Thank you', rom: 'Khob khun (krap/ka)' },
+      { en: 'Please', rom: 'Karuna' },
+      { en: 'Sorry', rom: 'Khor toht' },
+      { en: 'Yes', rom: 'Chai' },
+      { en: 'No', rom: 'Mai' }
+    ]},
+    { cat: 'Useful', items: [
+      { en: 'How much?', rom: 'Tao rai?' },
+      { en: 'Where is...?', rom: '...yoo tee nai?' },
+      { en: 'Water', rom: 'Nam' },
+      { en: 'Toilet', rom: 'Hong nam' }
+    ]}
+  ];
   const el = document.getElementById('phrasebookContent');
-  el.innerHTML = `<div class="card" style="font-size:12px;color:var(--text-muted);line-height:1.6;margin-bottom:14px;">Add <strong style="color:var(--jade);">krap</strong> (men) or <strong style="color:var(--jade);">ka</strong> (women) to sentences to be polite. Tap 🔊 to hear.</div>` +
+  el.innerHTML = `<div class="card" style="font-size:12px;color:var(--text-muted);line-height:1.6;margin-bottom:14px;">Add <strong style="color:var(--jade);">krap</strong> (men) or <strong style="color:var(--jade);">ka</strong> (women) to sentences.</div>` +
   PHRASES.map(g =>
-    `<div class="ag"><div class="ag-title">${esc(g.cat)}</div>
-    ${g.items.map(p =>
-      `<div style="display:grid;grid-template-columns:1fr 1fr 32px;gap:3px 8px;padding:8px 0;border-bottom:1px solid var(--border);align-items:center;">
-        <div style="font-size:13px;color:var(--text-dark);font-weight:500;">${esc(p.en)}</div>
-        <div style="font-size:13.5px;color:var(--jade);font-weight:500;">${esc(p.rom)}</div>
-        <button onclick="speakThai('${p.rom.replace(/'/g,"\\'")}')" style="background:none;border:none;cursor:pointer;font-size:16px;">🔊</button>
-      </div>`
+    `<div class="ag"><div class="ag-title">${window.esc(g.cat)}</div>${g.items.map(p =>
+      `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);"><div style="font-size:13px;color:var(--text-dark);font-weight:500;">${window.esc(p.en)}</div><div style="font-size:13.5px;color:var(--jade);font-weight:500;">${window.esc(p.rom)}</div></div>`
     ).join('')}</div>`
   ).join('');
 }
 
-// Clocks
 function tickClocks() {
   const now = new Date();
   const fmt = (tz) => new Intl.DateTimeFormat('en-GB',{timeZone:tz,hour:'2-digit',minute:'2-digit',hour12:false}).format(now);
@@ -690,26 +509,22 @@ function tickClocks() {
 tickClocks();
 setInterval(tickClocks, 1000);
 
-// Init
 async function init() {
-  setSyncDot('busy');
   const keys = ['buyUK', 'pack', 'buyTH', 'contacts', 'keyInfo', 'advice', 'notes'];
-  
   for (const k of keys) {
-    const remote = await dbGet(k);
+    const remote = await window.dbGet(k);
     if (remote !== null) {
       D[k] = remote;
       lastKnown[k] = JSON.stringify(remote);
     }
     setupSync(k);
   }
-  
   renderUI();
-  loadNotes();
+  document.getElementById('notesArea').value = D.notes || '';
   renderPhrasebook();
   document.getElementById('bottomNav').style.display = 'flex';
-  setSyncDot('ok');
 }
 </script>
+
 </body>
 </html>
