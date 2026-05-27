@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>TH26</title>
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TH26">
+<meta name="theme-color" content="#1a5c45">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --jade:#1a5c45;--jade-light:#2a7a5e;--jade-pale:#e8f2ee;--jade-mid:#4a9a7a;
+    --gold:#c9983a;--gold-light:#f0c96a;--gold-pale:#fdf6e8;
+    --cream:#faf7f0;--text-dark:#1a1a14;--text-mid:#4a4a3a;--text-muted:#8a8a7a;
+    --border:rgba(26,92,69,0.15);--border-strong:rgba(26,92,69,0.3);--bg:#fff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-dark);min-height:100vh;font-size:15px;line-height:1.5;}
+  
+  /* ── Login Screen ── */
+  .login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,var(--jade) 0%,var(--jade-light) 100%);padding:20px;}
+  .login-box{background:var(--bg);border-radius:16px;padding:40px 30px;max-width:320px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+  .login-title{font-family:'Playfair Display',serif;font-size:32px;color:var(--jade);margin-bottom:8px;text-align:center;}
+  .login-sub{font-size:13px;color:var(--text-muted);text-align:center;margin-bottom:24px;}
+  .login-form{display:flex;flex-direction:column;gap:12px;}
+  .login-in{width:100%;padding:12px 15px;border:1px solid var(--border-strong);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;background:var(--cream);color:var(--text-dark);outline:none;}
+  .login-in:focus{border-color:var(--jade-mid);background:var(--bg);}
+  .login-btn{background:var(--jade);color:var(--gold-light);border:none;border-radius:8px;padding:12px 15px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;margin-top:8px;}
+  .login-btn:hover{background:var(--jade-light);}
+  .login-err{color:#d32f2f;font-size:12px;margin-top:12px;text-align:center;display:none;}
+  
+  .app-header{background:var(--jade);position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.18);}
+  .header-inner{display:flex;align-items:center;justify-content:space-between;padding:13px 18px 9px;}
+  .app-title{font-family:'DM Sans',sans-serif;font-size:28px;color:var(--gold-light);letter-spacing:.02em;font-weight:400;}
+  .app-sub{font-size:12px;color:rgba(240,201,106,.6);letter-spacing:.1em;text-transform:uppercase;margin-top:2px;}
+  .logout-btn{background:none;border:none;color:var(--gold-light);font-size:12px;cursor:pointer;padding:4px 8px;}
+  .logout-btn:hover{opacity:.8;}
+  .sync-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-left:8px;}
+  .sync-dot.ok{background:#4caf50;}
+  .sync-dot.busy{background:#ff9800;}
+  .sync-dot.err{background:#f44336;}
+  
+  .bnav{background:rgba(0,0,0,.15);display:flex;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.1);}
+  .bn{flex:1 1 20%;min-width:60px;max-width:25%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:none;border:none;cursor:pointer;padding:7px 3px;color:rgba(240,201,106,.45);transition:background .15s,color .15s;}
+  .bn.active{color:var(--gold-light);background:rgba(255,255,255,.12);}
+  .bn:hover{color:var(--gold-light);}
+  .bn-i{font-size:17px;line-height:1;}
+  .bn-l{font-family:'DM Sans',sans-serif;font-size:8.5px;font-weight:500;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap;}
+  .main{padding:18px 15px 60px;max-width:600px;margin:0 auto;}
+  .section{display:none;}.section.active{display:block;}
+  .sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:9px;border-bottom:1px solid var(--border-strong);}
+  .sec-title{font-family:'Playfair Display',serif;font-size:20px;color:var(--jade);font-weight:600;}
+  .deco{height:3px;background:linear-gradient(to right,var(--jade),var(--gold),var(--jade));border-radius:2px;margin-bottom:16px;opacity:.38;}
+  .card{background:var(--bg);border-radius:12px;border:1px solid var(--border);padding:14px 15px;margin-bottom:11px;}
+  .list-cat{font-size:10.5px;font-weight:500;color:var(--jade);letter-spacing:.08em;text-transform:uppercase;padding:10px 0 5px;border-bottom:1px solid var(--border);}
+  .list-cat:first-child{padding-top:2px;}
+  .li{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid var(--border);transition:opacity .25s;}
+  .li:last-child{border-bottom:none;}
+  .li.done{opacity:.38;}
+  .li.done .li-txt{text-decoration:line-through;color:var(--text-muted);}
+  .chk{width:19px;height:19px;border:2px solid var(--jade-mid);border-radius:50%;appearance:none;-webkit-appearance:none;cursor:pointer;flex-shrink:0;position:relative;background:#fff;transition:background .2s,border-color .2s;}
+  .chk:checked{background:var(--jade);border-color:var(--jade);}
+  .chk:checked::after{content:'';position:absolute;left:3px;top:1px;width:8px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg);}
+  .li-txt{flex:1;font-size:13.5px;color:var(--text-dark);}
+  .li-del{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;padding:2px 4px;opacity:0;transition:opacity .15s;line-height:1;}
+  .li:hover .li-del,.li:active .li-del{opacity:1;}
+  .add-row{display:flex;gap:8px;margin-top:12px;}
+  .add-in{flex:1;padding:9px 13px;border:1px solid var(--border-strong);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13.5px;background:var(--cream);color:var(--text-dark);outline:none;}
+  .add-in:focus{border-color:var(--jade-mid);}
+  .add-btn{background:var(--jade);color:var(--gold-light);border:none;border-radius:8px;padding:9px 15px;font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;white-space:nowrap;}
+  .add-btn:hover{background:var(--jade-light);}
+  .cc{background:var(--bg);border-radius:12px;border:1px solid var(--border);padding:12px 15px;margin-bottom:8px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+  .cc-name{font-weight:500;font-size:13.5px;color:var(--text-dark);margin-bottom:2px;}
+  .cc-det{font-size:13px;color:var(--jade);font-weight:500;}
+  .cc-note{font-size:11.5px;color:var(--text-muted);margin-top:2px;}
+  .cc-del{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;opacity:0;transition:opacity .15s;padding:2px;}
+  .cc:hover .cc-del,.cc:active .cc-del{opacity:1;}
+  .ib{background:var(--bg);border-radius:12px;border:1px solid var(--border);padding:13px 15px;margin-bottom:11px;}
+  .ib-title{font-family:'Playfair Display',serif;font-size:13.5px;color:var(--jade);font-weight:600;margin-bottom:9px;padding-bottom:7px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+  .ir{display:flex;gap:9px;padding:6px 0;border-bottom:1px solid var(--border);font-size:12.5px;}
+  .ir:last-child{border-bottom:none;}
+  .ir-lbl{color:var(--text-muted);font-weight:500;min-width:105px;flex-shrink:0;}
+  .ir-val{color:var(--text-dark);flex:1;}
+  .ag{background:var(--bg);border-radius:12px;border:1px solid var(--border);padding:14px 15px;margin-bottom:11px;}
+  .ag-title{font-family:'Playfair Display',serif;font-size:13.5px;color:var(--jade);font-weight:600;margin-bottom:9px;}
+  .ai{display:flex;gap:7px;padding:5px 0;font-size:12.5px;color:var(--text-mid);border-bottom:1px solid var(--border);line-height:1.55;}
+  .ai:last-child{border-bottom:none;}
+  .ai-bul{color:var(--gold);font-size:9px;margin-top:4px;flex-shrink:0;}
+  .notes-ta{width:100%;min-height:220px;border:1px solid var(--border-strong);border-radius:12px;padding:15px;font-family:'DM Sans',sans-serif;font-size:13.5px;color:var(--text-dark);background:var(--bg);resize:vertical;outline:none;line-height:1.7;}
+  .notes-ta:focus{border-color:var(--jade-mid);}
+  .notes-bot{display:flex;justify-content:space-between;align-items:center;margin-top:9px;}
+  .save-hint{font-size:11.5px;color:var(--text-muted);}
+  .save-btn{background:var(--jade);color:var(--gold-light);border:none;border-radius:8px;padding:9px 19px;font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:500;cursor:pointer;}
+  .mb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.44);z-index:200;padding:20px;align-items:center;justify-content:center;}
+  .mb.open{display:flex;}
+  .modalbody{background:var(--bg);border-radius:16px;padding:24px;max-width:380px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);position:relative;}
+  .moda-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--jade);font-weight:600;margin-bottom:14px;}
+  .modalbody input{width:100%;padding:10px 12px;border:1px solid var(--border-strong);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13.5px;margin-bottom:12px;outline:none;}
+  .modalbody input:focus{border-color:var(--jade-mid);}
+  .modalbody button{width:100%;background:var(--jade);color:var(--gold-light);border:none;border-radius:8px;padding:11px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;margin-top:12px;}
+  .modalbody button:hover{background:var(--jade-light);}
+  .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--text-muted);font-size:24px;cursor:pointer;}
+  .tst{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--jade);color:var(--gold-light);padding:11px 16px;border-radius:8px;font-size:12.5px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:250;}
+  .tst.show{opacity:1;pointer-events:auto;}
+</style>
+</head>
+<body>
+
+<!-- Login Screen -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <div class="login-title">TH26</div>
+    <div class="login-sub">Trip prep companion</div>
+    <div class="login-form">
+      <input type="email" id="loginEmail" class="login-in" placeholder="Email" autocomplete="email">
+      <input type="password" id="loginPassword" class="login-in" placeholder="Password" autocomplete="current-password">
+      <button class="login-btn" onclick="handleLogin()">Sign In</button>
+      <div class="login-err" id="loginError"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Main App -->
+<div id="appContainer" style="display:none;">
+  <div class="app-header">
+    <div class="header-inner">
+      <div>
+        <div class="app-title">TH26 <span class="sync-dot ok" id="syncDot"></span></div>
+        <div class="app-sub">Thailand</div>
+      </div>
+      <button class="logout-btn" onclick="handleLogout()">Logout</button>
+    </div>
+  </div>
+  
+  <nav class="bnav" id="bottomNav" style="display:none;">
+    <button class="bn active" onclick="switchTab('buyUK')"><span class="bn-i">🛒</span><span class="bn-l">UK Shop</span></button>
+    <button class="bn" onclick="switchTab('pack')"><span class="bn-i">🎒</span><span class="bn-l">Packing</span></button>
+    <button class="bn" onclick="switchTab('buyTH')"><span class="bn-i">🏮</span><span class="bn-l">TH Shop</span></button>
+    <button class="bn" onclick="switchTab('contacts')"><span class="bn-i">📋</span><span class="bn-l">Contacts</span></button>
+    <button class="bn" onclick="switchTab('keyInfo')"><span class="bn-i">🔑</span><span class="bn-l">Key Info</span></button>
+    <button class="bn" onclick="switchTab('advice')"><span class="bn-i">✨</span><span class="bn-l">Advice</span></button>
+    <button class="bn" onclick="switchTab('notes')"><span class="bn-i">📝</span><span class="bn-l">Notes</span></button>
+    <button class="bn" onclick="switchTab('phrasebook')"><span class="bn-i">🗣️</span><span class="bn-l">Thai</span></button>
+    <button class="bn" onclick="switchTab('clocks')"><span class="bn-i">🕐</span><span class="bn-l">Clocks</span></button>
+  </nav>
+
+  <div class="main">
+    <!-- UK Shopping List -->
+    <div class="section active" id="buyUK">
+      <div class="sec-hdr">
+        <div class="sec-title">UK Shopping</div>
+      </div>
+      <div class="deco"></div>
+      <div id="buyUKList"></div>
+    </div>
+
+    <!-- Packing List -->
+    <div class="section" id="pack">
+      <div class="sec-hdr">
+        <div class="sec-title">Packing</div>
+      </div>
+      <div class="deco"></div>
+      <div id="packList"></div>
+    </div>
+
+    <!-- Thailand Shopping List -->
+    <div class="section" id="buyTH">
+      <div class="sec-hdr">
+        <div class="sec-title">Thailand Shopping</div>
+      </div>
+      <div class="deco"></div>
+      <div id="buyTHList"></div>
+    </div>
+
+    <!-- Contacts -->
+    <div class="section" id="contacts">
+      <div class="sec-hdr">
+        <div class="sec-title">Contacts</div>
+      </div>
+      <div class="deco"></div>
+      <div id="contactsList"></div>
+      <div style="margin-top:16px;">
+        <button class="add-btn" onclick="openAddContactModal()" style="width:100%;">+ Add Contact</button>
+      </div>
+    </div>
+
+    <!-- Key Info -->
+    <div class="section" id="keyInfo">
+      <div class="sec-hdr">
+        <div class="sec-title">Key Info</div>
+      </div>
+      <div class="deco"></div>
+      <div id="keyInfoList"></div>
+      <div style="margin-top:16px;">
+        <button class="add-btn" onclick="openAddKeyInfoModal()" style="width:100%;">+ Add Info</button>
+      </div>
+    </div>
+
+    <!-- Travel Advice -->
+    <div class="section" id="advice">
+      <div class="sec-hdr">
+        <div class="sec-title">Travel Advice</div>
+      </div>
+      <div class="deco"></div>
+      <div id="adviceList"></div>
+      <div style="margin-top:16px;">
+        <button class="add-btn" onclick="openAddAdviceModal()" style="width:100%;">+ Add Advice</button>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="section" id="notes">
+      <div class="sec-hdr">
+        <div class="sec-title">Notes</div>
+      </div>
+      <div class="deco"></div>
+      <textarea id="notesArea" class="notes-ta" placeholder="Add your notes here..."></textarea>
+      <div class="notes-bot">
+        <span class="save-hint" id="saveHint">Auto-save enabled</span>
+        <button class="save-btn" onclick="saveNotes()">Save</button>
+      </div>
+    </div>
+
+    <!-- Phrasebook -->
+    <div class="section" id="phrasebook">
+      <div class="sec-hdr">
+        <div class="sec-title">Thai Phrasebook</div>
+      </div>
+      <div class="deco"></div>
+      <div id="phrasebookContent"></div>
+    </div>
+
+    <!-- Clocks -->
+    <div class="section" id="clocks">
+      <div class="sec-hdr">
+        <div class="sec-title">Time Zones</div>
+      </div>
+      <div class="deco"></div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);">
+          <div>
+            <div style="font-weight:500;color:var(--jade);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;">UK</div>
+            <div style="font-size:18px;font-weight:500;color:var(--text-dark);font-family:monospace;margin-top:6px;" id="clockUK">--:--</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:4px;" id="dateUK">--</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-weight:500;color:var(--jade);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;">CHIANG MAI</div>
+            <div style="font-size:18px;font-weight:500;color:var(--text-dark);font-family:monospace;margin-top:6px;" id="clockCNX">--:--</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:4px;" id="dateCNX">--</div>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;">
+          <div>
+            <div style="font-weight:500;color:var(--jade);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;">BEIJING</div>
+            <div style="font-size:18px;font-weight:500;color:var(--text-dark);font-family:monospace;margin-top:6px;" id="clockBEI">--:--</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:4px;" id="dateBEI">--</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="tst" id="toast"></div>
+
+<!-- Modals -->
+<div class="mb" id="addContactModal">
+  <div class="modalbody">
+    <button class="modal-close" onclick="document.getElementById('addContactModal').classList.remove('open');">✕</button>
+    <div class="moda-title">Add Contact</div>
+    <input type="text" id="contactName" placeholder="Name">
+    <input type="text" id="contactRole" placeholder="Role (optional)">
+    <input type="text" id="contactPhone" placeholder="Phone (optional)">
+    <input type="text" id="contactEmail" placeholder="Email (optional)">
+    <button onclick="saveContact()">Add Contact</button>
+  </div>
+</div>
+
+<div class="mb" id="addKeyInfoModal">
+  <div class="modalbody">
+    <button class="modal-close" onclick="document.getElementById('addKeyInfoModal').classList.remove('open');">✕</button>
+    <div class="moda-title">Add Key Info</div>
+    <input type="text" id="keyInfoTitle" placeholder="Title (e.g., Embassy)">
+    <input type="text" id="keyInfoValue" placeholder="Details">
+    <button onclick="saveKeyInfo()">Add Info</button>
+  </div>
+</div>
+
+<div class="mb" id="addAdviceModal">
+  <div class="modalbody">
+    <button class="modal-close" onclick="document.getElementById('addAdviceModal').classList.remove('open');">✕</button>
+    <div class="moda-title">Add Travel Advice</div>
+    <input type="text" id="adviceCategory" placeholder="Category (e.g., Food)">
+    <input type="text" id="adviceText" placeholder="Advice">
+    <button onclick="saveAdvice()">Add Advice</button>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
+
+<script>
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyB9VG6MxZJyq1F7SNkIqF7JOjERBn8Xuoo",
+  authDomain: "th26-fcf06.firebaseapp.com",
+  databaseURL: "https://th26-fcf06-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "th26-fcf06",
+  storageBucket: "th26-fcf06.firebasestorage.app",
+  messagingSenderId: "1004464120258",
+  appId: "1:1004464120258:web:7a689c9b8d54b08982765b"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.database();
+
+// Auth state
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('appContainer').style.display = 'block';
+    init();
+  } else {
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('appContainer').style.display = 'none';
+  }
+});
+
+function handleLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginError');
+  
+  if (!email || !password) {
+    errEl.textContent = 'Please enter email and password';
+    errEl.style.display = 'block';
+    return;
+  }
+  
+  auth.signInWithEmailAndPassword(email, password)
+    .catch((error) => {
+      errEl.textContent = error.message;
+      errEl.style.display = 'block';
+    });
+}
+
+function handleLogout() {
+  auth.signOut().catch(() => {});
+}
+
+// Data store
+const D = {
+  buyUK: [],
+  pack: [],
+  buyTH: [],
+  contacts: [],
+  keyInfo: [],
+  advice: [],
+  notes: ''
+};
+
+const lastKnown = {};
+let syncListeners = {};
+
+async function dbGet(key) {
+  try {
+    const snapshot = await db.ref(`users/${auth.currentUser.uid}/${key}`).once('value');
+    return snapshot.exists() ? snapshot.val() : null;
+  } catch (e) {
+    console.error('dbGet error:', e);
+    return null;
+  }
+}
+
+async function dbSet(key, value) {
+  try {
+    await db.ref(`users/${auth.currentUser.uid}/${key}`).set(value);
+  } catch (e) {
+    console.error('dbSet error:', e);
+  }
+}
+
+function setupSync(key) {
+  const dbRef = db.ref(`users/${auth.currentUser.uid}/${key}`);
+  const listener = dbRef.on('value', (snapshot) => {
+    if (snapshot.exists()) {
+      D[key] = snapshot.val();
+      lastKnown[key] = JSON.stringify(D[key]);
+      renderUI();
+    }
+  });
+  syncListeners[key] = listener;
+}
+
+function setSyncDot(state) {
+  const dot = document.getElementById('syncDot');
+  dot.className = 'sync-dot ' + state;
+}
+
+// UI Functions
+function uid() { return 'id_' + Math.random().toString(36).substr(2, 9); }
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2500);
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.bn').forEach(b => b.classList.remove('active'));
+  document.getElementById(tab).classList.add('active');
+  event.target.closest('.bn').classList.add('active');
+}
+
+function renderUI() {
+  renderList('buyUK', 'buyUKList');
+  renderList('pack', 'packList');
+  renderList('buyTH', 'buyTHList');
+  renderContacts();
+  renderKeyInfo();
+  renderAdvice();
+}
+
+function renderList(key, elId) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  
+  const items = D[key] || [];
+  const grouped = {};
+  items.forEach(item => {
+    if (!grouped[item.cat]) grouped[item.cat] = [];
+    grouped[item.cat].push(item);
+  });
+
+  el.innerHTML = Object.entries(grouped).map(([cat, catItems]) =>
+    `<div class="card">
+      <div class="list-cat">${esc(cat)}</div>
+      ${catItems.map(item =>
+        `<div class="li${item.done ? ' done' : ''}">
+          <input type="checkbox" class="chk" ${item.done ? 'checked' : ''} 
+            onchange="toggleItem('${key}','${item.id}')">
+          <span class="li-txt">${esc(item.text)}</span>
+          <button class="li-del" onclick="delItem('${key}','${item.id}')">✕</button>
+        </div>`
+      ).join('')}
+      <div class="add-row">
+        <input type="text" class="add-in" id="inp_${key}_${cat}" placeholder="Add item...">
+        <button class="add-btn" onclick="addItem('${key}','${cat}')">Add</button>
+      </div>
+    </div>`
+  ).join('');
+}
+
+function addItem(key, cat) {
+  const inpId = `inp_${key}_${cat}`;
+  const text = document.getElementById(inpId).value.trim();
+  if (!text) return;
+  
+  D[key].push({ id: uid(), cat, text, done: false });
+  dbSet(key, D[key]);
+  document.getElementById(inpId).value = '';
+}
+
+function toggleItem(key, id) {
+  const item = D[key].find(i => i.id === id);
+  if (item) {
+    item.done = !item.done;
+    dbSet(key, D[key]);
+  }
+}
+
+function delItem(key, id) {
+  D[key] = D[key].filter(i => i.id !== id);
+  dbSet(key, D[key]);
+}
+
+function renderContacts() {
+  const el = document.getElementById('contactsList');
+  el.innerHTML = (D.contacts || []).map(c =>
+    `<div class="cc">
+      <div>
+        <div class="cc-name">${esc(c.name)}</div>
+        ${c.role ? `<div class="cc-det">${esc(c.role)}</div>` : ''}
+        ${c.phone ? `<div class="cc-note">☎️ ${esc(c.phone)}</div>` : ''}
+        ${c.email ? `<div class="cc-note">✉️ ${esc(c.email)}</div>` : ''}
+      </div>
+      <button class="cc-del" onclick="delContact('${c.id}')">✕</button>
+    </div>`
+  ).join('');
+}
+
+function openAddContactModal() {
+  document.getElementById('addContactModal').classList.add('open');
+}
+
+function saveContact() {
+  const name = document.getElementById('contactName').value.trim();
+  if (!name) { toast('Name required'); return; }
+  
+  D.contacts.push({
+    id: uid(),
+    name,
+    role: document.getElementById('contactRole').value.trim(),
+    phone: document.getElementById('contactPhone').value.trim(),
+    email: document.getElementById('contactEmail').value.trim()
+  });
+  dbSet('contacts', D.contacts);
+  document.getElementById('addContactModal').classList.remove('open');
+  document.getElementById('contactName').value = '';
+  document.getElementById('contactRole').value = '';
+  document.getElementById('contactPhone').value = '';
+  document.getElementById('contactEmail').value = '';
+  toast('Contact added');
+}
+
+function delContact(id) {
+  D.contacts = D.contacts.filter(c => c.id !== id);
+  dbSet('contacts', D.contacts);
+}
+
+function renderKeyInfo() {
+  const el = document.getElementById('keyInfoList');
+  el.innerHTML = (D.keyInfo || []).map(ki =>
+    `<div class="ib">
+      <div class="ib-title">${esc(ki.title)}</div>
+      <div class="ir">
+        <div class="ir-val">${esc(ki.value)}</div>
+        <button class="cc-del" onclick="delKeyInfo('${ki.id}')" style="margin-left:auto;">✕</button>
+      </div>
+    </div>`
+  ).join('');
+}
+
+function openAddKeyInfoModal() {
+  document.getElementById('addKeyInfoModal').classList.add('open');
+}
+
+function saveKeyInfo() {
+  const title = document.getElementById('keyInfoTitle').value.trim();
+  const value = document.getElementById('keyInfoValue').value.trim();
+  if (!title || !value) { toast('Title and details required'); return; }
+  
+  D.keyInfo.push({ id: uid(), title, value });
+  dbSet('keyInfo', D.keyInfo);
+  document.getElementById('addKeyInfoModal').classList.remove('open');
+  document.getElementById('keyInfoTitle').value = '';
+  document.getElementById('keyInfoValue').value = '';
+  toast('Info added');
+}
+
+function delKeyInfo(id) {
+  D.keyInfo = D.keyInfo.filter(ki => ki.id !== id);
+  dbSet('keyInfo', D.keyInfo);
+}
+
+function renderAdvice() {
+  const el = document.getElementById('adviceList');
+  const combined = {};
+  (D.advice || []).forEach(a => {
+    if (!combined[a.cat]) combined[a.cat] = [];
+    combined[a.cat].push(a);
+  });
+
+  el.innerHTML = Object.entries(combined).map(([cat, items]) =>
+    `<div class="ag">
+      <div class="ag-title">${esc(cat)}</div>
+      ${items.map(i =>
+        `<div class="ai">
+          <span class="ai-bul">◆</span>
+          <span style="flex:1;">${esc(i.text)}</span>
+          <button onclick="delAdvice('${i.id}')" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:11.5px;margin-left:5px;flex-shrink:0;">✕</button>
+        </div>`
+      ).join('')}
+    </div>`
+  ).join('');
+}
+
+function openAddAdviceModal() {
+  document.getElementById('addAdviceModal').classList.add('open');
+}
+
+function saveAdvice() {
+  const cat = document.getElementById('adviceCategory').value.trim();
+  const text = document.getElementById('adviceText').value.trim();
+  if (!cat || !text) { toast('Category and advice required'); return; }
+  
+  D.advice.push({ id: uid(), cat, text });
+  dbSet('advice', D.advice);
+  document.getElementById('addAdviceModal').classList.remove('open');
+  document.getElementById('adviceCategory').value = '';
+  document.getElementById('adviceText').value = '';
+  toast('Advice added');
+}
+
+function delAdvice(id) {
+  D.advice = D.advice.filter(a => a.id !== id);
+  dbSet('advice', D.advice);
+}
+
+function loadNotes() {
+  document.getElementById('notesArea').value = D.notes || '';
+  document.getElementById('saveHint').textContent = 'Last saved';
+}
+
+function saveNotes() {
+  D.notes = document.getElementById('notesArea').value;
+  dbSet('notes', D.notes);
+  document.getElementById('saveHint').textContent = 'Saved ✓';
+  toast('Notes saved');
+}
+
+document.addEventListener('input', function(e) {
+  if (e.target.id === 'notesArea') {
+    document.getElementById('saveHint').textContent = 'Unsaved changes';
+  }
+});
+
+// Phrasebook
+const PHRASES = [
+  { cat: 'Greetings', items: [
+    { en: 'Hello / Hi', rom: 'Sawasdee (krap/ka)' },
+    { en: 'Good morning', rom: 'Sawasdee ton chao' },
+    { en: 'Good evening', rom: 'Sawasdee ton yen' },
+    { en: 'Goodbye', rom: 'La gon' },
+    { en: 'How are you?', rom: 'Pen yang-ngai bang?' }
+  ]},
+  { cat: 'Politeness', items: [
+    { en: 'Thank you', rom: 'Khob khun (krap/ka)' },
+    { en: 'Please', rom: 'Karuna / Kor' },
+    { en: 'Sorry', rom: 'Khor toht' },
+    { en: 'Yes', rom: 'Chai' },
+    { en: 'No', rom: 'Mai' }
+  ]},
+  { cat: 'Useful', items: [
+    { en: 'How much?', rom: 'Tao rai?' },
+    { en: 'Where is...?', rom: '...yoo tee nai?' },
+    { en: 'Water', rom: 'Nam' },
+    { en: 'Toilet', rom: 'Hong nam' },
+    { en: 'Help', rom: 'Chuay duay!' }
+  ]}
+];
+
+function speakThai(text) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'th-TH';
+  u.rate = 0.85;
+  window.speechSynthesis.speak(u);
+}
+
+function renderPhrasebook() {
+  const el = document.getElementById('phrasebookContent');
+  el.innerHTML = `<div class="card" style="font-size:12px;color:var(--text-muted);line-height:1.6;margin-bottom:14px;">Add <strong style="color:var(--jade);">krap</strong> (men) or <strong style="color:var(--jade);">ka</strong> (women) to sentences to be polite. Tap 🔊 to hear.</div>` +
+  PHRASES.map(g =>
+    `<div class="ag"><div class="ag-title">${esc(g.cat)}</div>
+    ${g.items.map(p =>
+      `<div style="display:grid;grid-template-columns:1fr 1fr 32px;gap:3px 8px;padding:8px 0;border-bottom:1px solid var(--border);align-items:center;">
+        <div style="font-size:13px;color:var(--text-dark);font-weight:500;">${esc(p.en)}</div>
+        <div style="font-size:13.5px;color:var(--jade);font-weight:500;">${esc(p.rom)}</div>
+        <button onclick="speakThai('${p.rom.replace(/'/g,"\\'")}')" style="background:none;border:none;cursor:pointer;font-size:16px;">🔊</button>
+      </div>`
+    ).join('')}</div>`
+  ).join('');
+}
+
+// Clocks
+function tickClocks() {
+  const now = new Date();
+  const fmt = (tz) => new Intl.DateTimeFormat('en-GB',{timeZone:tz,hour:'2-digit',minute:'2-digit',hour12:false}).format(now);
+  const fmtD = (tz) => new Intl.DateTimeFormat('en-GB',{timeZone:tz,weekday:'short',day:'numeric',month:'short'}).format(now);
+  document.getElementById('clockUK').textContent = fmt('Europe/London');
+  document.getElementById('clockCNX').textContent = fmt('Asia/Bangkok');
+  document.getElementById('clockBEI').textContent = fmt('Asia/Shanghai');
+  document.getElementById('dateUK').textContent = fmtD('Europe/London');
+  document.getElementById('dateCNX').textContent = fmtD('Asia/Bangkok');
+  document.getElementById('dateBEI').textContent = fmtD('Asia/Shanghai');
+}
+tickClocks();
+setInterval(tickClocks, 1000);
+
+// Init
+async function init() {
+  setSyncDot('busy');
+  const keys = ['buyUK', 'pack', 'buyTH', 'contacts', 'keyInfo', 'advice', 'notes'];
+  
+  for (const k of keys) {
+    const remote = await dbGet(k);
+    if (remote !== null) {
+      D[k] = remote;
+      lastKnown[k] = JSON.stringify(remote);
+    }
+    setupSync(k);
+  }
+  
+  renderUI();
+  loadNotes();
+  renderPhrasebook();
+  document.getElementById('bottomNav').style.display = 'flex';
+  setSyncDot('ok');
+}
+</script>
+</body>
+</html>
